@@ -14,10 +14,11 @@ use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use App\Entity\Source;
-
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 #[AsLiveComponent]
-class SourceSearch
+class SourceSearch extends AbstractController
 {
     use DefaultActionTrait;
     use ComponentToolsTrait;
@@ -39,14 +40,19 @@ class SourceSearch
     #[LiveAction]
     public function refreshSource(EntityManagerInterface $entityManager, XMLImporter $xml, #[LiveArg] int $id)
     {
+    
         $source = $entityManager->find(Source::class, $id);
-        $feed = $xml->XMLImporterFeed($source->getUrl());
-        if (!$feed) {
-            $this->emit('source:notice', [
-                'message' => 'error',
+
+        // get feed values
+        $feed = $xml->xmlImporterFeed($source->getUrl());
+
+        // get feed error or save feed values in article
+        if (isset($feed['type']) && $feed['type'] === 'error') {
+            return $this->emit('alert:notice', [
+                'message' => 'error: ' . $feed['message'],
                 'type' => 'danger'
             ]);
-        } else {;
+        } else {
             $count = 0;
             foreach ($feed->item as $item) {
                 $article = new Article();
@@ -57,9 +63,15 @@ class SourceSearch
                 $entityManager->flush();
                 $count++;
             }
-            $this->emit('source:notice', [
-                'message' => "refreshed $count post(s)"
-            ]);
+
+            // show alert
+            $this->addFlash(
+                'notice',
+                "refreshed $count post(s)"
+            );
+            
+            // return to homepage to refresh content
+            return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
         }
     }
 }
