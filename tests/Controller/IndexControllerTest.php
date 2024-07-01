@@ -2,18 +2,18 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Source;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\Source;
 
-class SourceControllerTest extends WebTestCase
+class IndexControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private EntityManagerInterface $manager;
     private EntityRepository $repository;
-    private string $path = '/source/';
+    private string $path = '/';
 
     protected function setUp(): void
     {
@@ -30,21 +30,13 @@ class SourceControllerTest extends WebTestCase
 
         $this->manager->flush();
     }
-
-    public function testRemove(): void
+    public function testIndex(): void
     {
-        $this->markTestIncomplete();
-        $fixture = new Source();
-        $fixture->setName('Value');
-        $fixture->setUrl('Value');
+        $crawler = $this->client->request('GET', $this->path);
 
-        $this->manager->persist($fixture);
-        $this->manager->flush();
+        self::assertResponseStatusCodeSame(200);
+        self::assertPageTitleContains('FIRe');
+        self::assertSelectorTextContains('h1', 'Welcome');
 
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
-        $this->client->submitForm('Delete');
-
-        self::assertResponseRedirects('/');
-        self::assertSame(0, $this->repository->count([]));
     }
 }

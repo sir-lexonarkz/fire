@@ -1,0 +1,2 @@
+parameters:
+    myapp.test.hostname: '%env(resolve:TEST_URL)%'
