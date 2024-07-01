@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage
+{% endblock %}
+
+{% block body %}
+	<div class="container px-4 py-5" id="featured-3">
+		<h1 class="pb-2 border-bottom">Welcome</h1>
+    {{ include('_flashbag.html.twig') }}
+		{{ include('article/_page.html.twig') }}
+	</div>
+	<twig:SourceModal/>
+{% endblock %}

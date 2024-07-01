@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}{% endblock %}
+			- FIRe Feeds Importer & Reader</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0M4 4a16 16 0 0 1 16 16M4 11a9 9 0 0 1 9 9'/></svg>"> {% block stylesheets %}{% endblock %}
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		<main>
+
+			<header class="p-3 text-bg-dark">
+				<div class="container">
+					<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+						<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" title="Homepage">
+								<twig:ux:icon name="tabler:rss"/>
+						</a>
+
+						<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+							<li>
+								<a href="#" class="nav-link px-2 text-secondary">Home</a>
+							</li>
+							<li>
+								<a type="button" class="nav-link px-2 text-secondary" data-bs-toggle="modal" data-bs-target="#new-category-modal">Sources</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</header>
+		</main>
+		{% block body %}{% endblock %}
+	</body>
+</html>
