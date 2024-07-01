@@ -1,0 +1,35 @@
+<div {{ attributes }}>
+	<div class="form-group mb-3">
+		<label for="searchFeed">Search:</label>
+		<input class="form-control" name="searchFeed" type="search" data-model="query">
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Url</th>
+				<th scope="col">actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for source in this.sources %}
+				<tr>
+					<td>{{ source.name }}</td>
+					<td>{{ source.url }}</td>
+					<td>
+						<form class="d-inline" method="post" action="{{ path('app_source_delete', {'id': source.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ source.id) }}">
+							<button class="btn btn-outline-danger btn-sm">Delete</button>
+						</form>
+						<button class="btn btn-outline-success btn-sm" data-action="live#action" data-live-id-param="{{ source.id }}" data-live-action-param="refreshSource">Refresh</button>
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="4">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

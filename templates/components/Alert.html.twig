@@ -1,0 +1,8 @@
+<div {{ attributes }}>
+	{% if message is not empty %}
+			<div class="alert alert-{{ type }} alert-dismissible" role="alert">
+				<twig:ux:icon name="tabler:{{ this.icon }}" class="me-2"/>
+				{{ message }}
+			</div>
+	{% endif %}
+</div>
