@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\DBAL\Types\BlobType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use SimpleXMLElement;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -18,13 +20,13 @@ class Article
     private ?string $name = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    private $content;
+    private mixed $content;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Source $source = null;
 
-    private $contentAsText = null;
+    private ?string $contentAsText = null;
 
     public function getId(): ?int
     {
@@ -43,7 +45,7 @@ class Article
         return $this;
     }
 
-    public function getContent()
+    public function getContent(): ?string
     {
         if (is_null($this->contentAsText))
         {
@@ -52,7 +54,7 @@ class Article
         return $this->contentAsText;
     }
 
-    public function setContent($content): static
+    public function setContent(BlobType|SimpleXMLElement $content): static
     {
         $this->content = $content;
 

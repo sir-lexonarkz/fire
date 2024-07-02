@@ -6,20 +6,21 @@ use SimpleXMLElement;
 
 class XMLImporter
 {
+
     /**
-     * This PHP function loads an XML feed from a specified URL and returns the channel element as a
-     * SimpleXMLElement object or false if the feed cannot be loaded.
-     * 
-     * @param url The `url` parameter in the `xmlImporterFeed` function is expected to be a string
-     * representing the URL of an XML feed that you want to import. This function uses
-     * `simplexml_load_file` to load the XML file from the provided URL and then returns the `channel`
-     * element of the
-     * 
-     * @return SimpleXMLElement|false The function `xmlImporterFeed` is returning a `SimpleXMLElement`
-     * object if the XML file is successfully loaded from the provided URL. If there is an issue
-     * loading the file, it will return `false`.
+     * The function `xmlImporterFeed` loads an XML file from a given URL and returns the channel
+     * element as a SimpleXMLElement or an error message if loading fails.
+     * @param string $url The `url` parameter in the `xmlImporterFeed` function is a string that
+     * represents the URL from which an XML feed will be imported. This function attempts to load the
+     * XML file from the provided URL using `simplexml_load_file` function. If successful, it returns
+     * the SimpleXMLElement object representing
+     * @return SimpleXMLElement|array<string, string>|false The function `xmlImporterFeed` will return a SimpleXMLElement
+     * object if the XML file at the provided URL can be loaded successfully using
+     * `simplexml_load_file`. If an error occurs during loading, it will return an associative array
+     * with keys 'type' and 'message' containing information about the error. If the XML file is loaded
+     * successfully, it will return the 'channel' element of the feed.
      */
-    public function xmlImporterFeed($url): SimpleXMLElement|array
+    public function xmlImporterFeed(string $url): SimpleXMLElement|array|false
     {
         $feed = false;
         try {

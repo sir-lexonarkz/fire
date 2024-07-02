@@ -1,8 +1,9 @@
 # FIRe Feeds Importer & Reader
-Demo example Symfony 7.1 with Symfony UX components (UX Live components, UX Swup, UX icons)
+Demo example Symfony 7.1 with Symfony UX components (UX Live components, UX Swup, UX icons) and API Platform
 
 ## Usage
-Add sources with RSS XLM URL and click refresh button to import content in database
+- Add sources with RSS XLM URL and click refresh button to import content in database
+- Access to API documentation API Plateform : /api
 
 ## Installation
 ```shell
@@ -13,6 +14,23 @@ $ npm install
 # Create database and schema
 $ php bin/console doctrine:database:create
 $ php bin/console doctrine:schema:update --force
+```
+
+## Requirements
+- PHP 8.3.*
+- MySQL, SQLite or PostgreSQL
+- [Apache or Symfony server](https://symfony.com/doc/current/setup/symfony_server.html) 
+- [NPM, NodeJS](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [Composer](https://getcomposer.org/)
+
+## Test tools
+- PHPUnit
+```shell
+$ php bin/phpunit
+```
+- PHPStan
+```shell
+$ php vendor/bin/phpstan
 ```
 
 ## Resources

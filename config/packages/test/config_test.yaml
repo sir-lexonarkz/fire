@@ -1,2 +1,3 @@
 parameters:
-    myapp.test.hostname: '%env(resolve:TEST_URL)%'
+    fire.test.hostname: '%env(resolve:TEST_URL)%'
+    fire.test.https: '%env(resolve:HTTPS)%'

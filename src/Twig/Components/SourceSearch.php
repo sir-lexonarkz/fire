@@ -31,16 +31,16 @@ class SourceSearch extends AbstractController
     }
 
     #[LiveListener('source:updated')]
-    public function getSources(): array
+    public function getSources(): mixed
     {
         // example method that returns an array of Sources
         return $this->sourceRepository->search($this->query);
     }
 
     #[LiveAction]
-    public function refreshSource(EntityManagerInterface $entityManager, XMLImporter $xml, #[LiveArg] int $id)
+    public function refreshSource(EntityManagerInterface $entityManager, XMLImporter $xml, #[LiveArg] int $id): ?Response
     {
-    
+
         $source = $entityManager->find(Source::class, $id);
 
         // get feed values
@@ -48,10 +48,11 @@ class SourceSearch extends AbstractController
 
         // get feed error or save feed values in article
         if (isset($feed['type']) && $feed['type'] === 'error') {
-            return $this->emit('alert:notice', [
+            $this->emit('alert:notice', [
                 'message' => 'error: ' . $feed['message'],
                 'type' => 'danger'
             ]);
+            return null;
         } else {
             $count = 0;
             foreach ($feed->item as $item) {
@@ -67,9 +68,9 @@ class SourceSearch extends AbstractController
             // show alert
             $this->addFlash(
                 'notice',
-                "refreshed $count post(s)"
+                "$count post(s) added"
             );
-            
+
             // return to homepage to refresh content
             return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
         }

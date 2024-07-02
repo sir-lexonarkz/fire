@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Validator\Constraints\Url;
 
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
+#[ApiResource]
 class Source
 {
     #[ORM\Id]
@@ -20,6 +23,10 @@ class Source
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Url(
+        requireTld: false,
+        message: 'The url {{ value }} is not a valid url',
+    )]
     private ?string $url = null;
 
     /**

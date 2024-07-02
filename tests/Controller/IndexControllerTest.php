@@ -3,24 +3,25 @@
 namespace App\Tests\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Entity\Source;
+use App\Repository\SourceRepository;
 
 class IndexControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private EntityManagerInterface $manager;
-    private EntityRepository $repository;
+    private SourceRepository $repository;
     private string $path = '/';
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $hostname = $this->client->getContainer()->getParameter('myapp.test.hostname');
+        $hostname = $this->client->getContainer()->getParameter('fire.test.hostname');
+        $https = $this->client->getContainer()->getParameter('fire.test.https');
         $this->client->setServerParameter('HTTP_HOST', $hostname );
-        //$this->client->setServerParameter('HTTPS', 'on' );
+        $this->client->setServerParameter('HTTPS', $https );
         $this->manager = static::getContainer()->get('doctrine')->getManager();
         $this->repository = $this->manager->getRepository(Source::class);
 

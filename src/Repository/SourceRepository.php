@@ -16,7 +16,7 @@ class SourceRepository extends ServiceEntityRepository
         parent::__construct($registry, Source::class);
     }
 
-    public function search($keyword) : array {
+    public function search(string $keyword) : mixed {
         
         if(empty($keyword)) {
             return $this->findAll();
