@@ -20,7 +20,7 @@ class IndexControllerTest extends WebTestCase
         $this->client = static::createClient();
         $hostname = $this->client->getContainer()->getParameter('myapp.test.hostname');
         $this->client->setServerParameter('HTTP_HOST', $hostname );
-        $this->client->setServerParameter('HTTPS', 'on' );
+        //$this->client->setServerParameter('HTTPS', 'on' );
         $this->manager = static::getContainer()->get('doctrine')->getManager();
         $this->repository = $this->manager->getRepository(Source::class);
 
@@ -30,6 +30,7 @@ class IndexControllerTest extends WebTestCase
 
         $this->manager->flush();
     }
+    
     public function testIndex(): void
     {
         $crawler = $this->client->request('GET', $this->path);
@@ -38,5 +39,21 @@ class IndexControllerTest extends WebTestCase
         self::assertPageTitleContains('FIRe');
         self::assertSelectorTextContains('h1', 'Welcome');
 
+    }
+
+    public function testRemove(): void
+    {
+        $fixture = new Source();
+        $fixture->setName('Value');
+        $fixture->setUrl('Value');
+
+        $this->manager->persist($fixture);
+        $this->manager->flush();
+
+        $this->client->request('GET', $this->path);
+        $this->client->submitForm('Delete');
+
+        self::assertResponseRedirects('/');
+        self::assertSame(0, $this->repository->count([]));
     }
 }
