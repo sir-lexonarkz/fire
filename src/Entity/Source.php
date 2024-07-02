@@ -89,11 +89,9 @@ class Source
 
     public function removeArticle(Article $article): static
     {
-        if ($this->articles->removeElement($article)) {
+        if ($this->articles->removeElement($article) && $article->getSource() === $this) {
             // set the owning side to null (unless already changed)
-            if ($article->getSource() === $this) {
-                $article->setSource(null);
-            }
+            $article->setSource(null);
         }
 
         return $this;
