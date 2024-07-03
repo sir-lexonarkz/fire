@@ -32,8 +32,14 @@ $ php bin/phpunit
 ```shell
 $ php vendor/bin/phpstan
 ```
+- Behat
+```shell
+$ php vendor/bin/behat
+```
 
 ## Resources
 - [Install Symfony UX](https://symfony.com/doc/current/frontend/ux.html).
 - [List of UX Packages](https://symfony.com/bundles/StimulusBundle/current/index.html#the-ux-packages).
 - [Symfony UX Official Demo](https://ux.symfony.com).
+- [Behat API Extension](https://behat-api-extension.readthedocs.io/en/latest/)
+- [API Platform](https://api-platform.com/)
