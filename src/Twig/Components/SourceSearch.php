@@ -2,7 +2,6 @@
 
 namespace App\Twig\Components;
 
-use App\Entity\Article;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -54,17 +53,8 @@ class SourceSearch extends AbstractController
             ]);
             return null;
         } else {
-            $count = 0;
-            foreach ($feed->item as $item) {
-                $article = new Article();
-                $article->setName($item->title);
-                $article->setSource($source);
-                $article->setContent($item->description);
-                $entityManager->persist($article);
-                $entityManager->flush();
-                $count++;
-            }
 
+            $count =  $xml->saveFeed($entityManager, $feed, $source);
             // show alert
             $this->addFlash(
                 'notice',

@@ -3,6 +3,9 @@
 namespace App\Service;
 
 use SimpleXMLElement;
+use App\Entity\Article;
+use App\Entity\Source;
+use Doctrine\ORM\EntityManagerInterface;
 
 class XMLImporter
 {
@@ -30,6 +33,21 @@ class XMLImporter
         }
         if ($feed) {
             $feed = $feed->channel;
+        }
+        return $feed;
+    }
+
+    public function saveFeed(EntityManagerInterface $entityManager, SimpleXMLElement|array|false $feed, Source $source): int
+    {
+        $count = 0;
+        foreach ($feed->item as $item) {
+            $article = new Article();
+            $article->setName($item->title);
+            $article->setSource($source);
+            $article->setContent($item->description);
+            $entityManager->persist($article);
+            $entityManager->flush();
+            $count++;
         }
         return $feed;
     }

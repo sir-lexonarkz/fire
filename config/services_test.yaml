@@ -5,3 +5,6 @@ services:
 
     App\Tests\Behat\:
         resource: '../tests/Behat/*'
+parameters:
+    fire.test.hostname: '%env(resolve:TEST_URL)%'
+    fire.test.https: '%env(resolve:HTTPS)%'
